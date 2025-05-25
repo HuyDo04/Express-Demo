@@ -1,8 +1,7 @@
+const loginController = require("@/controllers/admin/auth.controller");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.render("admin/auth/login/index", { layout: false });
-});
+router.get("/", loginController.login);
 
 module.exports = router;

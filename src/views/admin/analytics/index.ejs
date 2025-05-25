@@ -1,354 +1,592 @@
-<main class="content-wrapper">
-    <div class="content-header">
-        <h1>Comments</h1>
-        <div>
-            <button id="bulkApproveBtn" class="btn btn-success" style="margin-right: 10px">
-                <i class="fas fa-check"></i> Approve Selected
-            </button>
-            <button id="bulkRejectBtn" class="btn btn-danger">
-                <i class="fas fa-ban"></i> Reject Selected
-            </button>
-        </div>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
 
-    <!-- Filter Bar -->
-    <div class="filter-bar">
-        <form id="filterForm" class="filter-form" novalidate>
-            <div class="form-group">
-                <label for="filterText">Search</label>
-                <input type="text" id="filterText" class="form-control" placeholder="Search comments..." />
-                <span class="error-text" id="filterTextError">Please enter valid search text.</span>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics | Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="assets/css/common.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  
+      
+
+        <!-- Main Content -->
+        <main>
+            <div class="content-header">
+                <h1>Analytics Dashboard</h1>
+                <div>
+                    <button class="btn btn-secondary" id="exportBtn">
+                        <i class="fas fa-download"></i> Export Report
+                    </button>
+                    <button class="btn btn-primary" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh Data
+                    </button>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="filterPost">Post</label>
-                <select id="filterPost" class="form-control">
-                    <option value="">All Posts</option>
-                    <option value="1">
-                        10 Tips for Better Productivity
-                    </option>
-                    <option value="2">
-                        The Future of AI in Business
-                    </option>
-                    <option value="3">
-                        5 Morning Habits of Successful People
-                    </option>
-                    <option value="4">
-                        How to Build a Successful E-commerce
-                        Business
-                    </option>
-                    <option value="5">
-                        The Complete Guide to Digital Marketing
-                    </option>
-                    <option value="6">
-                        The Rise of Remote Work
-                    </option>
-                </select>
-                <span class="error-text" id="filterPostError">Please select a valid post.</span>
+            <!-- Analytics Date Filter -->
+            <div class="card" style="margin-bottom: 20px">
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dateRange">Date Range</label>
+                            <select id="dateRange" class="form-control">
+                                <option value="today">Today</option>
+                                <option value="yesterday">Yesterday</option>
+                                <option value="week" selected>
+                                    Last 7 days
+                                </option>
+                                <option value="month">Last 30 days</option>
+                                <option value="quarter">
+                                    Last 90 days
+                                </option>
+                                <option value="year">Last year</option>
+                                <option value="custom">Custom range</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="customDateContainer" style="display: none">
+                            <label for="startDate">Start Date</label>
+                            <input type="date" id="startDate" class="form-control" />
+                        </div>
+                        <div class="form-group" id="customDateEndContainer" style="display: none">
+                            <label for="endDate">End Date</label>
+                            <input type="date" id="endDate" class="form-control" />
+                        </div>
+                        <div class="form-group" style="align-self: flex-end">
+                            <button type="button" id="applyDateFilter" class="btn btn-primary">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="filterStatus">Status</label>
-                <select id="filterStatus" class="form-control">
-                    <option value="">All Statuses</option>
-                    <option value="approved">Approved</option>
-                    <option value="pending">Pending</option>
-                    <option value="rejected">Rejected</option>
-                </select>
-                <span class="error-text" id="filterStatusError">Please select a valid status.</span>
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Page Views</h3>
+                    <p class="stat-value">24,780</p>
+                    <p class="trend up">
+                        <i class="fas fa-arrow-up"></i> 12.5% from previous
+                        period
+                    </p>
+                    <div class="stat-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Unique Visitors</h3>
+                    <p class="stat-value">8,425</p>
+                    <p class="trend up">
+                        <i class="fas fa-arrow-up"></i> 8.2% from previous
+                        period
+                    </p>
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Avg. Session Duration</h3>
+                    <p class="stat-value">3m 42s</p>
+                    <p class="trend up">
+                        <i class="fas fa-arrow-up"></i> 4.3% from previous
+                        period
+                    </p>
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Bounce Rate</h3>
+                    <p class="stat-value">42.8%</p>
+                    <p class="trend down">
+                        <i class="fas fa-arrow-down"></i> 2.7% from previous
+                        period
+                    </p>
+                    <div class="stat-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group filter-actions">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-filter"></i> Filter
-                </button>
-                <button type="button" id="resetFilters" class="btn btn-secondary" style="margin-left: 10px">
-                    <i class="fas fa-times"></i> Reset
-                </button>
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Traffic Overview</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="trafficChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Traffic Sources</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="sourcesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>User Devices</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="devicesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Page Performance</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
-    </div>
 
-    <!-- Data Table -->
-    <div class="table-container">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th style="width: 40px">
-                        <input type="checkbox" id="selectAll" />
-                    </th>
-                    <th>Comment</th>
-                    <th>Author</th>
-                    <th>Post</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Comment rows -->
-                <tr data-id="1">
-                    <td>
-                        <input type="checkbox" class="comment-checkbox" />
-                    </td>
-                    <td>
-                        <div style="
-                                display: flex;
-                                flex-direction: column;
-                            ">
-                            <div class="item-title">
-                                Great article! These tips have
-                                really helped me improve my
-                                productivity.
-                            </div>
-                            <div class="item-subtitle" style="margin-top: 5px">
-                                <a href="post-detail.html?id=1">View Post</a>
-                            </div>
-                        </div>
-                    </td>
-                    <td>Sarah Johnson</td>
-                    <td>10 Tips for Better Productivity</td>
-                    <td>Jul 16, 2023</td>
-                    <td>
-                        <span class="badge badge-success">Approved</span>
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="comment-detail.html?id=1" class="action-btn view" title="View">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="edit-comment.html?id=1" class="action-btn edit" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="#" class="action-btn delete delete-item" title="Delete" data-id="1"
-                                data-name="Comment from Sarah Johnson">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr data-id="2">
-                    <td>
-                        <input type="checkbox" class="comment-checkbox" />
-                    </td>
-                    <td>
-                        <div style="
-                                display: flex;
-                                flex-direction: column;
-                            ">
-                            <div class="item-title">
-                                I disagree with point #3. In my
-                                experience, starting with the most
-                                difficult task first is more
-                                effective.
-                            </div>
-                            <div class="item-subtitle" style="margin-top: 5px">
-                                <a href="post-detail.html?id=1">View Post</a>
-                            </div>
-                        </div>
-                    </td>
-                    <td>Michael Brown</td>
-                    <td>10 Tips for Better Productivity</td>
-                    <td>Jul 17, 2023</td>
-                    <td>
-                        <span class="badge badge-success">Approved</span>
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="comment-detail.html?id=2" class="action-btn view" title="View">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="edit-comment.html?id=2" class="action-btn edit" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="#" class="action-btn delete delete-item" title="Delete" data-id="2"
-                                data-name="Comment from Michael Brown">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr data-id="3">
-                    <td>
-                        <input type="checkbox" class="comment-checkbox" />
-                    </td>
-                    <td>
-                        <div style="
-                                display: flex;
-                                flex-direction: column;
-                            ">
-                            <div class="item-title">
-                                The AI revolution is already here.
-                                Companies need to adapt quickly or
-                                get left behind.
-                            </div>
-                            <div class="item-subtitle" style="margin-top: 5px">
-                                <a href="post-detail.html?id=2">View Post</a>
-                            </div>
-                        </div>
-                    </td>
-                    <td>David Wilson</td>
-                    <td>The Future of AI in Business</td>
-                    <td>Jul 12, 2023</td>
-                    <td>
-                        <span class="badge badge-success">Approved</span>
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="comment-detail.html?id=3" class="action-btn view" title="View">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="edit-comment.html?id=3" class="action-btn edit" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="#" class="action-btn delete delete-item" title="Delete" data-id="3"
-                                data-name="Comment from David Wilson">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr data-id="4">
-                    <td>
-                        <input type="checkbox" class="comment-checkbox" />
-                    </td>
-                    <td>
-                        <div style="
-                                display: flex;
-                                flex-direction: column;
-                            ">
-                            <div class="item-title">
-                                Check out my website at
-                                http://spamlink.com for more
-                                productivity hacks!
-                            </div>
-                            <div class="item-subtitle" style="margin-top: 5px">
-                                <a href="post-detail.html?id=1">View Post</a>
-                            </div>
-                        </div>
-                    </td>
-                    <td>Unknown User</td>
-                    <td>10 Tips for Better Productivity</td>
-                    <td>Jul 18, 2023</td>
-                    <td>
-                        <span class="badge badge-danger">Rejected</span>
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="comment-detail.html?id=4" class="action-btn view" title="View">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="edit-comment.html?id=4" class="action-btn edit" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="#" class="action-btn delete delete-item" title="Delete" data-id="4"
-                                data-name="Comment from Unknown User">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr data-id="5">
-                    <td>
-                        <input type="checkbox" class="comment-checkbox" />
-                    </td>
-                    <td>
-                        <div style="
-                                display: flex;
-                                flex-direction: column;
-                            ">
-                            <div class="item-title">
-                                Morning meditation has changed my
-                                life. I'd add that to the list of
-                                habits.
-                            </div>
-                            <div class="item-subtitle" style="margin-top: 5px">
-                                <a href="post-detail.html?id=3">View Post</a>
-                            </div>
-                        </div>
-                    </td>
-                    <td>Jennifer Lopez</td>
-                    <td>5 Morning Habits of Successful People</td>
-                    <td>Jul 18, 2023</td>
-                    <td>
-                        <span class="badge badge-warning">Pending</span>
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="comment-detail.html?id=5" class="action-btn view" title="View">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="edit-comment.html?id=5" class="action-btn edit" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="#" class="action-btn delete delete-item" title="Delete" data-id="5"
-                                data-name="Comment from Jennifer Lopez">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr data-id="6">
-                    <td>
-                        <input type="checkbox" class="comment-checkbox" />
-                    </td>
-                    <td>
-                        <div style="
-                                display: flex;
-                                flex-direction: column;
-                            ">
-                            <div class="item-title">
-                                Remote work has been a game-changer.
-                                No more commuting and better
-                                work-life balance!
-                            </div>
-                            <div class="item-subtitle" style="margin-top: 5px">
-                                <a href="post-detail.html?id=6">View Post</a>
-                            </div>
-                        </div>
-                    </td>
-                    <td>Robert Taylor</td>
-                    <td>The Rise of Remote Work</td>
-                    <td>Jul 19, 2023</td>
-                    <td>
-                        <span class="badge badge-warning">Pending</span>
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="comment-detail.html?id=6" class="action-btn view" title="View">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="edit-comment.html?id=6" class="action-btn edit" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="#" class="action-btn delete delete-item" title="Delete" data-id="6"
-                                data-name="Comment from Robert Taylor">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- Pagination -->
-        <div class="pagination-container">
-            <div class="pagination-info">
-                Showing 1-6 of 24 comments
+            <!-- Top Pages Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Top Pages</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Page</th>
+                                    <th>Views</th>
+                                    <th>Unique Visitors</th>
+                                    <th>Avg. Time on Page</th>
+                                    <th>Bounce Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>/home</td>
+                                    <td>5,720</td>
+                                    <td>3,850</td>
+                                    <td>2m 15s</td>
+                                    <td>32.4%</td>
+                                </tr>
+                                <tr>
+                                    <td>/products</td>
+                                    <td>4,325</td>
+                                    <td>2,980</td>
+                                    <td>3m 42s</td>
+                                    <td>25.7%</td>
+                                </tr>
+                                <tr>
+                                    <td>/blog/top-10-tips</td>
+                                    <td>3,842</td>
+                                    <td>3,105</td>
+                                    <td>4m 38s</td>
+                                    <td>18.3%</td>
+                                </tr>
+                                <tr>
+                                    <td>/about-us</td>
+                                    <td>2,540</td>
+                                    <td>2,180</td>
+                                    <td>1m 56s</td>
+                                    <td>45.2%</td>
+                                </tr>
+                                <tr>
+                                    <td>/contact</td>
+                                    <td>1,985</td>
+                                    <td>1,740</td>
+                                    <td>2m 12s</td>
+                                    <td>38.5%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <ul class="pagination">
-                <li class="active">
-                    <a href="#" data-page="1">1</a>
-                </li>
-                <li><a href="#" data-page="2">2</a></li>
-                <li><a href="#" data-page="3">3</a></li>
-                <li><a href="#" data-page="4">4</a></li>
-            </ul>
-        </div>
-    </div>
-</main>
+        </main>
+    <script src="assets/js/common.js"></script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Initialize charts
+            initializeCharts();
+
+            // Setup date range filter
+            const dateRangeSelect = document.getElementById("dateRange");
+            const customDateContainer = document.getElementById(
+                "customDateContainer"
+            );
+            const customDateEndContainer = document.getElementById(
+                "customDateEndContainer"
+            );
+
+            dateRangeSelect.addEventListener("change", function () {
+                if (this.value === "custom") {
+                    customDateContainer.style.display = "block";
+                    customDateEndContainer.style.display = "block";
+                } else {
+                    customDateContainer.style.display = "none";
+                    customDateEndContainer.style.display = "none";
+                }
+            });
+
+            // Apply button click
+            document
+                .getElementById("applyDateFilter")
+                .addEventListener("click", function () {
+                    // Here you would update the data based on the selected date range
+                    showMessage(
+                        "dateFilterApplied",
+                        "Date filter applied. Data updated.",
+                        3000
+                    );
+
+                    // Reinitialize charts with new data
+                    initializeCharts();
+                });
+
+            // Export button click
+            document
+                .getElementById("exportBtn")
+                .addEventListener("click", function () {
+                    showMessage(
+                        "exportStarted",
+                        "Export started. Your report will be downloaded shortly.",
+                        3000
+                    );
+                    // In a real app, this would trigger a download
+                    setTimeout(() => {
+                        const a = document.createElement("a");
+                        a.style.display = "none";
+                        a.href = "#";
+                        a.download = "analytics-report.pdf";
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    }, 1500);
+                });
+
+            // Refresh button click
+            document
+                .getElementById("refreshBtn")
+                .addEventListener("click", function () {
+                    showMessage("refreshing", "Refreshing data...", 1500);
+                    setTimeout(() => {
+                        initializeCharts();
+                        showMessage(
+                            "refreshComplete",
+                            "Data refreshed successfully!",
+                            3000
+                        );
+                    }, 1500);
+                });
+        });
+
+        function initializeCharts() {
+            // Traffic Overview Chart
+            const trafficCtx = document
+                .getElementById("trafficChart")
+                .getContext("2d");
+            new Chart(trafficCtx, {
+                type: "line",
+                data: {
+                    labels: [
+                        "Mon",
+                        "Tue",
+                        "Wed",
+                        "Thu",
+                        "Fri",
+                        "Sat",
+                        "Sun",
+                    ],
+                    datasets: [
+                        {
+                            label: "This Week",
+                            data: [
+                                3250, 3800, 4200, 3950, 4100, 3700, 3900,
+                            ],
+                            borderColor: "#3a86ff",
+                            backgroundColor: "rgba(58, 134, 255, 0.1)",
+                            tension: 0.3,
+                            fill: true,
+                        },
+                        {
+                            label: "Previous Week",
+                            data: [
+                                2800, 3300, 3600, 3550, 3300, 3400, 3200,
+                            ],
+                            borderColor: "#8ecaff",
+                            backgroundColor: "rgba(142, 202, 255, 0.1)",
+                            tension: 0.3,
+                            fill: true,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: false,
+                        },
+                        tooltip: {
+                            mode: "index",
+                            intersect: false,
+                        },
+                        legend: {
+                            position: "top",
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false,
+                            },
+                        },
+                        x: {
+                            grid: {
+                                display: false,
+                                drawBorder: false,
+                            },
+                        },
+                    },
+                },
+            });
+
+            // Traffic Sources Chart
+            const sourcesCtx = document
+                .getElementById("sourcesChart")
+                .getContext("2d");
+            new Chart(sourcesCtx, {
+                type: "doughnut",
+                data: {
+                    labels: [
+                        "Direct",
+                        "Search",
+                        "Social",
+                        "Referral",
+                        "Email",
+                    ],
+                    datasets: [
+                        {
+                            data: [35, 25, 20, 15, 5],
+                            backgroundColor: [
+                                "#3a86ff",
+                                "#ff006e",
+                                "#8338ec",
+                                "#fb5607",
+                                "#ffbe0b",
+                            ],
+                            borderWidth: 0,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: "right",
+                        },
+                    },
+                    cutout: "65%",
+                },
+            });
+
+            // User Devices Chart
+            const devicesCtx = document
+                .getElementById("devicesChart")
+                .getContext("2d");
+            new Chart(devicesCtx, {
+                type: "bar",
+                data: {
+                    labels: ["Desktop", "Mobile", "Tablet"],
+                    datasets: [
+                        {
+                            label: "Users by Device",
+                            data: [45, 40, 15],
+                            backgroundColor: [
+                                "#3a86ff",
+                                "#ff006e",
+                                "#8338ec",
+                            ],
+                            borderWidth: 0,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false,
+                            },
+                        },
+                        x: {
+                            grid: {
+                                display: false,
+                                drawBorder: false,
+                            },
+                        },
+                    },
+                },
+            });
+
+            // Page Performance Chart
+            const performanceCtx = document
+                .getElementById("performanceChart")
+                .getContext("2d");
+            new Chart(performanceCtx, {
+                type: "radar",
+                data: {
+                    labels: [
+                        "Load Time",
+                        "Interactivity",
+                        "Accessibility",
+                        "SEO",
+                        "Best Practices",
+                    ],
+                    datasets: [
+                        {
+                            label: "Current",
+                            data: [85, 78, 92, 88, 95],
+                            backgroundColor: "rgba(58, 134, 255, 0.2)",
+                            borderColor: "#3a86ff",
+                            pointBackgroundColor: "#3a86ff",
+                            pointBorderColor: "#fff",
+                            pointHoverBackgroundColor: "#fff",
+                            pointHoverBorderColor: "#3a86ff",
+                        },
+                        {
+                            label: "Previous",
+                            data: [75, 65, 85, 80, 90],
+                            backgroundColor: "rgba(255, 0, 110, 0.2)",
+                            borderColor: "#ff006e",
+                            pointBackgroundColor: "#ff006e",
+                            pointBorderColor: "#fff",
+                            pointHoverBackgroundColor: "#fff",
+                            pointHoverBorderColor: "#ff006e",
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    elements: {
+                        line: {
+                            borderWidth: 2,
+                        },
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true,
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                        },
+                    },
+                },
+            });
+        }
+    </script>
+
+    <style>
+        /* Additional styles for analytics page */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card h3 {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .trend {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .trend.up {
+            color: #4caf50;
+        }
+
+        .trend.down {
+            color: #f44336;
+        }
+
+        .stat-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: rgba(58, 134, 255, 0.1);
+            font-size: 28px;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            padding: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+
+</html>

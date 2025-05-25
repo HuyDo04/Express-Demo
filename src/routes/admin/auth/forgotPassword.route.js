@@ -1,8 +1,7 @@
+const forgotPasswordController = require("@/controllers/admin/auth.controller");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.render("admin/auth/forgotPassword/index", { layout: false });
-});
+router.get("/", forgotPasswordController.forgotPassword);
 
 module.exports = router;

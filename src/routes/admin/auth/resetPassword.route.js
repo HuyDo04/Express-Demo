@@ -1,8 +1,7 @@
+const resetPasswordController = require("@/controllers/admin/auth.controller");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.render("admin/auth/resetPassword/index", { layout: false });
-});
+router.get("/", resetPasswordController.resetPassword);
 
 module.exports = router;

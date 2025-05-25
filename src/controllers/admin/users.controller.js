@@ -20,3 +20,7 @@ exports.edit = async (req, res) => {
   const user = await userService.getById(req.params.id);
   res.render("admin/users/edit", { user });
 };
+
+exports.create = async (req, res) => {
+  res.render("admin/users/create");
+};

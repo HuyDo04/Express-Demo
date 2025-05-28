@@ -4,7 +4,7 @@ const { buildUpdateQuery, buildInsertQuery } = require("@/utils/queryBuilder");
 exports.findAll = async (page = 1, limit = 10) => {
   const offset = (page - 1) * limit;
   const [rows] = await db.query(
-    "SELECT id, first_name, last_name, username,avatar, email, intro  FROM users where username is not null ORDER BY created_at DESC LIMIT ? OFFSET ?",
+    "SELECT id, first_name, last_name, username,avatar, email, intro  FROM users where username is not null ORDER BY id DESC LIMIT ? OFFSET ?",
     [+limit, +offset]
   );
 

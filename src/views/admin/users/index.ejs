@@ -93,10 +93,10 @@
                             <a href="/admin/users/edit/<%= user.id %>" class="action-btn edit" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="#" class="action-btn delete delete-item" title="Delete" data-id="1"
-                                data-name="Wireless Headphones">
-                                <i class="fas fa-trash"></i>
-                            </a>
+                            <form method="POST" action="/admin/users/<%= user.id %>?_method=DELETE"
+                                onsubmit="return confirm('Bạn có chắc muốn xoá không?');">
+                                <button type="submit" class="action-btn delete"><i class="fas fa-trash"></i></button>                       
+                            </form>
                         </div>
                     </td>
                     </tr>

@@ -4,6 +4,7 @@ const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const router = require("./src/routes/api");
 const adminRouter = require("@/routes/admin");
+const methodOverride = require("method-override");
 const handleNotFound = require("@/middlewares/handleNotFound");
 const handleErrors = require("@/middlewares/handleErrors");
 const responseEnhancer = require("@/middlewares/responseEhancer");
@@ -15,10 +16,11 @@ const app = express();
 // middleware
 app.use(express.static("public"));
 app.use(express.json());
+app.use(express.urlencoded());
 
 app.use(handlePagination);
 app.use(responseEnhancer);
-
+app.use(methodOverride("_method"));
 // Set template engine
 app.use(expressLayouts);
 app.set("view engine", "ejs");

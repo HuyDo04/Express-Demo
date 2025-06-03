@@ -1,8 +1,10 @@
 const userService = require("@/service/user.service");
-
 exports.index = async (req, res) => {
+  if (!res.locals.auth) return res.redirect("/admin/login");
+
   const page = req.query.page ?? 1;
   const { items, total } = await userService.getAll(page, 20);
+
   res.render("admin/users/index", {
     users: items,
     total,
@@ -57,3 +59,6 @@ exports.delete = async (req, res) => {
   await userService.remove(id);
   res.redirect("/admin/users");
 };
+
+// Cookie: Không lưu ở server. Lưu ở trình duyệt
+// Session: Lưu ở server

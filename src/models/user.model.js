@@ -1,5 +1,6 @@
 const db = require("@/configs/db");
 const { buildUpdateQuery, buildInsertQuery } = require("@/utils/queryBuilder");
+const md5 = require("md5");
 
 exports.findAll = async (page = 1, limit = 10) => {
   const offset = (page - 1) * limit;
@@ -20,6 +21,15 @@ exports.findById = async (id) => {
   const [results] = await db.query(
     `select * from users where id = ? or username = ?`,
     [id, id]
+  );
+
+  return results[0] ?? null;
+};
+
+exports.findByEmailAndPassword = async (email, password) => {
+  const [results] = await db.query(
+    `select * from users where email = ? and password = ?`,
+    [email, md5(password)]
   );
 
   return results[0] ?? null;

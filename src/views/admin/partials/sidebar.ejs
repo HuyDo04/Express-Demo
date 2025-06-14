@@ -17,10 +17,12 @@
             <%= item.title %>
         </a>
         <% } %>
-        <!-- <a href="settings.html" class="menu-item">
-            <i class="fas fa-sign-out-alt"></i>
-            Logout
-        </a> -->
+        <form method="POST" class="menu-item" action="/admin/logout?_method=DELETE">
+            <button type="submit">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </button>    
+        </form>
     </nav>
 
     <div class="user-profile" id="userProfileDropdown">

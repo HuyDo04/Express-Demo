@@ -13,6 +13,7 @@ const handleSidebar = require("@/middlewares/admin/handleSidebar");
 const handleSession = require("@/middlewares/admin/handleSession");
 const shareLocals = require("@/middlewares/admin/shareLocals");
 const cookieParser = require("cookie-parser");
+const checkAuth = require("@/middlewares/admin/checkAuth");
 
 const app = express();
 
@@ -33,7 +34,7 @@ app.set("layout", "admin/layouts/default");
 
 // Routers
 app.use("/api/v1", router);
-app.use("/admin", handleSession, shareLocals, handleSidebar, adminRouter);
+app.use("/admin", handleSession, shareLocals,checkAuth ,handleSidebar, adminRouter);
 
 // Error handler
 app.use(handleNotFound);

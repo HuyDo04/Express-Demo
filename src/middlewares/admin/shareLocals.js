@@ -1,7 +1,8 @@
 const userModel = require("@/models/user.model");
 async function shareLocals(req, res, next) {
-  const userId = req.session.get("userId");
   res.locals.auth = null;
+
+  const userId = req.session.userId;
 
   if (userId) {
     const user = await userModel.findById(userId);

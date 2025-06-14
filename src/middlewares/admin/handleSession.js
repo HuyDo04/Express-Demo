@@ -1,53 +1,35 @@
-// 1: Tạo ra session ID -> bằng một chuỗi ngẫu nhiên, không trùng lặp
-// 2: Yêu cầu gửi phản hồi (server -> client) yêu cầu browser tạo ra cookie sid=xxxx
-// 3: Lấy sid từ cookie để xác định client
 const { randomUUID } = require("node:crypto");
 const sessionModel = require("@/models/session.model");
-const userService = require("@/service/user.service");
+// 1. Tạo ra session ID (sid) -> bằng một chuỗi ngẫu nhiên, không trùng lặp
+// 2. Gửi phản hồi (server -> client) yêu cầu browser tạo ra cookie sid=xxxx
+// 3. Lấy sid từ cookie để xác định client
 
-async function handleSession(req, res, next) {
-  let _sid = req.cookies.sid;
-  let session = _sid && (await sessionModel.findBySid(_sid));
+async function session(req, res, next) {
+    let _sid = req.cookies.sid;
+    let session = _sid && (await sessionModel.findBySid(req.cookies.sid));
 
-  // Nếu không có session → tạo mới
-  if (!session) {
-    _sid = randomUUID();
-    session = await sessionModel.create({
-      sid: _sid,
-      data: JSON.stringify({}),
+    if (!session) {
+        _sid = randomUUID();
+        const date = new Date();
+        session = await sessionModel.create({ sid: _sid });
+        date.setDate(date.getDate() + 1);
+        res.set("Set-Cookie", `sid=${_sid}; path=/; httpOnly; expires=${date}`);
+    }
+
+    req.session = JSON.parse(session.data ?? null) ?? {};
+
+    // // Flash message
+    // res.setFlash = (data) => {
+    //     req.session.flash = data;
+    // };
+
+    res.on("finish", () => {
+        sessionModel.update(_sid, {
+            data: JSON.stringify(req.session),
+        });
     });
 
-    const date = new Date();
-    date.setDate(date.getDate() + 1);
-    const expires = date.toUTCString();
-
-    res.setHeader(
-      "Set-Cookie",
-      `sid=${_sid}; Path=/; HttpOnly; Expires=${expires}`
-    );
-  }
-
-  let sessionData = {};
-  try {
-    sessionData = JSON.parse(session.data ?? "{}");
-  } catch (error) {
-    sessionData = {};
-  }
-
-  req.session = {
-    get(key) {
-      return sessionData[key] ?? null;
-    },
-
-    async set(key, value) {
-      sessionData[key] = value;
-      await sessionModel.update(_sid, {
-        data: JSON.stringify(sessionData),
-      });
-    },
-  };
-
-  next();
+    next();
 }
 
-module.exports = handleSession;
+module.exports = session;

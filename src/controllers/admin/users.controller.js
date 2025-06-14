@@ -1,6 +1,5 @@
 const userService = require("@/service/user.service");
 exports.index = async (req, res) => {
-  if (!res.locals.auth) return res.redirect("/admin/login");
 
   const page = req.query.page ?? 1;
   const { items, total } = await userService.getAll(page, 20);

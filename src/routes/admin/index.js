@@ -12,6 +12,7 @@ const loginRouter = require("./auth/login.route");
 const registerRouter = require("./auth/register.route");
 const forgotPasswordRouter = require("./auth/forgotPassword.route");
 const resetPasswordRouter = require("./auth/resetPassword.route");
+const logoutRouter = require("./auth/logout.route")
 
 const router = express.Router();
 router.use("/users", userRouter);
@@ -26,7 +27,7 @@ router.use("/accountsettings", accountSettingsRouter);
 router.use("/login", loginRouter);
 router.use("/register", registerRouter);
 router.use("/resetPassword", resetPasswordRouter);
-
 router.use("/forgotPassword", forgotPasswordRouter);
+router.use("/logout",logoutRouter)
 
 module.exports = router;

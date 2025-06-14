@@ -14,11 +14,9 @@ exports.login = async (req, res) => {
   const password = req.body.password;
 
   const user = await userModel.findByEmailAndPassword(email, password);
-  console.log(user);
-
-  if (user) {
-    req.session.set("userId", user.id);
-    res.redirect("/admin/users");
+  if (user) {    
+    req.session.userId= user.id
+    return res.redirect("/admin/users");
   }
 };
 
@@ -49,3 +47,8 @@ exports.resetPassword = async (req, res) => {
     layout: "admin/layouts/auth-layout",
   });
 };
+
+exports.logout = async(req, res) => {
+  delete req.session.userId;
+  res.redirect("/admin/login")
+}

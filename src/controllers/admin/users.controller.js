@@ -34,6 +34,12 @@ exports.store = async (req, res) => {
 
   await userService.create(body);
 
+  // Flash message
+  res.setFlash({
+    type: "success",
+    message: "Tạo người dùng thành công",
+});
+
   res.redirect("/admin/users");
 };
 

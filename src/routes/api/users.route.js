@@ -9,6 +9,7 @@ const router = express.Router();
 attachResourceLoader(router, ["user"]);
 
 router.get("/", usersController.getList);
+router.get("/:id/email-image.jpg", usersController.getEmailImage);
 router.get("/:user", usersController.getOne);
 router.delete("/:user", usersController.remove);
 router.put("/:user", usersController.update);

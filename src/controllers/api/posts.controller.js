@@ -4,7 +4,7 @@ const { response } = require("@/utils/response");
 const throw404 = require("@/utils/throw404");
 
 exports.getAllPosts = async (req, res) => {
-  const posts = await postService.getAllPosts();
+  const posts = await postService.getAll();
   const { q } = req.query;
   if (q) {
     const key = q.toLowerCase();

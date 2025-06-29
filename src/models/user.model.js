@@ -12,6 +12,20 @@ exports.findAll = async (page = 1, limit = 10) => {
   return rows;
 };
 
+exports.findCountNewUsers= async () => {
+  const date = new Date();
+  date.setDate(-1);
+  const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+  const startTime = `${currentDate} 00:00:00`;
+  const endTime = `${currentDate} 23:59:00`;
+
+  console.log([startTime, endTime])
+  const [[{ count }]] = await db.query(`select count(*) as count from users where created_at between ? and ? `, [startTime, endTime])
+
+  return count;
+};
+
 exports.count = async () => {
   const [[{ total }]] = await db.query("select count(*) as total from users");
   return total;
@@ -46,6 +60,13 @@ exports.create = async (data) => {
     ...data,
   };
 };
+
+exports.findByEmail = async (email) => {
+  const query = "select id, email, reset_password_otp, reset_password_otp_expires_at from users where email = ? limit 1";
+  const [rows] = await db.query(query, [email]);
+  return rows[0];
+};
+
 
 exports.update = async (id, data) => {
   const { setClause, values } = buildUpdateQuery(data);

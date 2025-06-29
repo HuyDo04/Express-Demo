@@ -1,26 +1,43 @@
 <style>
-    .flash-message {
-        padding: 16px 20px;
-        margin-bottom: 20px;
-        border-radius: 20px;
-        border: 1px solid #ccc;
-        background: #ccc;
-    }
+.flash-message {
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border-left: 4px solid transparent;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #333;
+    background: #f5f5f5;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-    .flash-message.success {
-        border-color: #a3cfbb;
-        background: #a3cfbb;
-    }
+.flash-message.success {
+    border-left-color: #198754;
+    background: #d1e7dd;
+    color: #0f5132;
+}
 
-    .flash-message.errors {
-        border-color: #842029;
-        background: #842029;
-    }
+.flash-message.errors {
+    border-left-color: #dc3545;
+    background: #f8d7da;
+    color: #842029;
+}
 
-    .flash-message.warning {
-        border-color: #ffda6a;
-        background: #ffda6a;
-    }
+.flash-message.warning {
+    border-left-color: #ffc107;
+    background: #fff3cd;
+    color: #664d03;
+}
+
+/* Optional: icon placeholder for future expansion */
+.flash-message .icon {
+    flex-shrink: 0;
+    font-size: 16px;
+}
+
 </style>
 
 <% if(flash) { %>

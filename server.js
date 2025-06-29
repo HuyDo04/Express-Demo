@@ -1,4 +1,5 @@
 require("module-alias/register");
+require("dotenv").config();
 // import express from "express"
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
@@ -14,9 +15,22 @@ const handleSession = require("@/middlewares/admin/handleSession");
 const shareLocals = require("@/middlewares/admin/shareLocals");
 const cookieParser = require("cookie-parser");
 const checkAuth = require("@/middlewares/admin/checkAuth");
+const sequelize = require("@/configs/database");
 
 const app = express();
 
+// check connect database
+
+async function checkConnectDB() {
+  try {
+    await sequelize.authenticate();
+    console.log("Connect DB successfully");
+  } catch (error) {
+    console.log("Connect DB fail");
+  }
+}
+
+checkConnectDB();
 // middleware
 app.use(express.static("public"));
 app.use(express.json());

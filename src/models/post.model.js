@@ -1,47 +1,25 @@
-const db = require("@/configs/db");
-const { buildUpdateQuery, buildInsertQuery } = require("@/utils/queryBuilder");
+const sequelize = require("@/configs/database");
+const { DataTypes } = require("sequelize");
 
-exports.findAll = async () => {
-  const [rows] = await db.query("SELECT * FROM posts ORDER BY created_at DESC");
-  return rows;
-};
+const Post = sequelize.define("Post", {
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 
-exports.findById = async (id) => {
-  const [results] = await db.query(
-    `select * from users where id = ? or username = ?`,
-    [id, id]
-  );
+  slug: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
 
-  return results[0] ?? null;
-};
+  content: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+}, {
+  tableName: "posts",
+  underscored:true,
+  timestamps: true,
+})
 
-exports.create = async (data) => {
-  const { columns, placeholders, values } = buildInsertQuery(data);
-
-  const query = `INSERT INTO users (${columns}) VALUES (${placeholders});`;
-  const [{ insertId }] = await db.query(query, values);
-
-  return {
-    id: insertId,
-    ...data,
-  };
-};
-
-exports.update = async (id, data) => {
-  const { setClause, values } = buildUpdateQuery(data);
-
-  values.push(id);
-
-  const query = `UPDATE users SET ${setClause} WHERE id = ?;`;
-  await db.query(query, values);
-
-  return {
-    id,
-    ...data,
-  };
-};
-
-exports.remove = async (id) => {
-  const [affectedRows] = await db.query(`delete from users where id = ?`, [id]);
-  return affectedRows > 0;
-};
+module.exports = Post

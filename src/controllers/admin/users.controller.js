@@ -1,9 +1,10 @@
 const userService = require("@/service/user.service");
+const retryFailedJobs = require("@/tasks/retryFailedJobs");
+const { dispatch } = require("@/utils/queue");
 exports.index = async (req, res) => {
-
+  // console.log(retryFailedJobs())
   const page = req.query.page ?? 1;
   const { items, total } = await userService.getAll(page, 20);
-
   res.render("admin/users/index", {
     users: items,
     total,

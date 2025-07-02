@@ -6,7 +6,7 @@
 //     return d.toISOString().slice(0, 19).replace('T', ' ');
 // }
 
-// async function dispatch(type, payload, options = {}) {
+// async function (type, payload, options = {}) {
 //     const {
 //         max_retries = 3, 
 //         retries_count = 0,
@@ -37,8 +37,8 @@ const queuesService = require("@/service/queue.service");
 async function dispatch(type, payload) {
     const newQueue = {
         type,
-        max_retries: max_retries ?? 3,
-        retries_count: retries_count ?? 0,
+        // max_retries: max_retries ?? 3,
+        // retries_count: retries_count ?? 0,
         payload: JSON.stringify(payload),
     };
     await queuesService.create(newQueue);

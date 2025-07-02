@@ -1,33 +1,47 @@
 const Post = require("@/models/post.model");
 const postModel = require("@/models/post.model");
+const { Op, where } = require("sequelize");
 
 class PostsService {
   async getAll() {
-    const items = await Post.findAll({
-      where :{
-        id: 6
-      } 
-    }
-    );
-    console.log("item", items);
+    const items = await Post.findAll();
     return { items };
   }
 
   async getById(id) {
-    const user = await Post.findOne(id);
+    const user = await Post.findOne({
+      where: {
+        id
+      }
+    });
     return user;
   }
 
   async remove(id) {
-    return await Post.destroy(id);
+    return await Post.destroy(
+     {
+      where: {
+        id
+      }
+     }
+    );
   }
 
   async update(id, data) {
-    return await Post.update(id, data);
+    return await Post.update(data, {
+      where: {
+        id
+      }
+    });
   }
 
   async create(data) {
-    return await Post.create(data);
+    return await Post.create({
+      content: data.content,
+      title: data.title,
+      slug: data.slug,
+      description: data.descripton,
+    });
   }
 }
 

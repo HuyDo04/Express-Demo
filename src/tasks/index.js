@@ -26,6 +26,6 @@ scheduleJob("retry_failed_jobs", "* * * * *", retryFailedJobs)
 /**
  * Mỗi phút kiểm tra một lần để xóa users trong thùng rác 
  */
-scheduleJob("delete_users_in_trash", "* * * * *", async () => {
-    console.log("delete_users_in_trash")
-})
+// scheduleJob("delete_users_in_trash", "* * * * *", async () => {
+//     console.log("delete_users_in_trash")
+// })

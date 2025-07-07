@@ -15,7 +15,6 @@ async function sendDailyReportEmail () {
         `
         })
     console.log(info);
-    
 }
 
 module.exports = sendDailyReportEmail

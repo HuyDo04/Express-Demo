@@ -1,5 +1,4 @@
 {
-  "type": "commonjs",
   "scripts": {
     "dev": "node --watch ./server",
     "queue": "node --watch ./src/workers/queueWorker.js",

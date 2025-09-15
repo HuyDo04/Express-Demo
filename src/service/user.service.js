@@ -8,6 +8,11 @@ class UserService {
     return { items, total };
   }
 
+  async getCountNewUsers() {
+    const items = await userModel.findCountNewUsers()
+    return items;
+  }
+
   async count() {
     const total = await userModel.count();
     return total;
@@ -17,6 +22,11 @@ class UserService {
     const user = await userModel.findById(id);
     return user;
   }
+
+  async getByEmail (email) {
+    const user = await userModel.findByEmail(email);
+    return user;
+  }  
 
   async remove(id) {
     return await userModel.remove(id);

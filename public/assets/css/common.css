@@ -222,6 +222,12 @@ h6 {
     display: none;
 }
 
+.error-text-users {
+    color: #f44336;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
 .form-control.error {
     border-color: #f44336;
 }

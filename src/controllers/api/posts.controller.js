@@ -4,7 +4,7 @@ const { response } = require("@/utils/response");
 const throw404 = require("@/utils/throw404");
 
 exports.getAllPosts = async (req, res) => {
-  const posts = await postService.getAllPosts();
+  const posts = await postService.getAll();
   const { q } = req.query;
   if (q) {
     const key = q.toLowerCase();
@@ -17,7 +17,7 @@ exports.getAllPosts = async (req, res) => {
 };
 
 exports.getPostById = async (req, res) => {
-  const post = await postService.getPostById(req.params.id);
+  const post = await postService.getById(req.params.id);
 
   if (!post) throw404();
 
@@ -25,13 +25,13 @@ exports.getPostById = async (req, res) => {
 };
 
 exports.createPost = async (req, res) => {
-  const posts = await postService.createPost(req.body);
+  const posts = await postService.create(req.body);
 
   response.success(res, 201, posts);
 };
 
 exports.putPost = async (req, res) => {
-  const post = await postService.putPost(req.params.id, req.body);
+  const post = await postService.update(req.params.id, req.body);
 
   if (!post) throw404();
 
@@ -39,7 +39,7 @@ exports.putPost = async (req, res) => {
 };
 
 exports.deletePost = async (req, res) => {
-  const post = await postService.deletePost(req.params.id);
+  const post = await postService.remove(req.params.id);
 
   if (!post) throw404();
 

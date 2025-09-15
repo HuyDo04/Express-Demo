@@ -1,8 +1,8 @@
+const registerController = require("@/controllers/admin/auth.controller");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.render("admin/auth/register/index", { layout: false });
-});
+router.get("/", registerController.showRegisterForm);
+router.post("/", registerController.register);
 
 module.exports = router;

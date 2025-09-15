@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nhập mã OTP</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .otp-container {
+            background: #fff;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .otp-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .otp-message {
+            color: red;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .otp-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .otp-input {
+            padding: 12px 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .otp-input:focus {
+            border-color: #007bff;
+        }
+
+        .otp-button {
+            padding: 12px 14px;
+            background: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .otp-button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="otp-container">
+        <h1 class="otp-title">Nhập mã OTP</h1>
+
+        <% if (message) { %>
+            <p class="otp-message">
+                <%= message %>
+            </p>
+            <% } %>
+
+                <form class="otp-form" action="/admin/forgotPassword/verifyOtp" method="POST">
+                    <input type="hidden" name="email" value="<%= email %>" />
+                    <input type="text" name="otp" placeholder="Nhập mã OTP gồm 6 số" required class="otp-input" />
+                    <button type="submit" class="otp-button">Xác thực</button>
+                </form>
+    </div>
+</body>
+
+</html>
